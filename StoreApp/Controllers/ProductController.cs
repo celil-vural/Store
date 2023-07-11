@@ -1,27 +1,28 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
-using Repositories.Concrete;
+using Services.Contract;
 
 namespace StoreApp.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly RepositoryManager<Product> _manager;
-        public ProductController(RepositoryManager<Product> manager)
+        private readonly IProductService _productService;
+
+        public ProductController(IProductService productService)
         {
-            _manager = manager;
+            _productService = productService;
         }
 
 
         public IActionResult Index()
         {
-            var model = _manager.GetList().ToList();
+            var model = _productService.GetList().ToList();
             return View(model);
         }
 
-        public IActionResult Get(int id)
+        public IActionResult Get([FromRoute(Name = "id")] int id)
         {
-            Product? product = _manager.Get(p => p.ProductId.Equals(id));
+            Product? product = _productService.GetById(id);
             return View(product);
         }
     }

@@ -1,13 +1,12 @@
 ﻿using Entities.Contracts;
-using Repositories.Contracts;
 using System.Linq.Expressions;
 
-namespace Repositories.Concrete
+namespace Repositories.Contracts
 {
-    public abstract class RepositoryManager<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
+    public abstract class RepositoryManagerBase<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
     {
         protected readonly IRepositoryBase<TEntity> _repositoryBase;
-        protected RepositoryManager(IRepositoryBase<TEntity> repositoryBase)
+        protected RepositoryManagerBase(IRepositoryBase<TEntity> repositoryBase)
         {
             _repositoryBase = repositoryBase;
         }

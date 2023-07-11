@@ -23,7 +23,8 @@ namespace Repositories.Concrete.EntityFramework
         }
         public TEntity Add(TEntity entity, bool trackChanges)
         {
-            throw new NotImplementedException();
+            _context.Set<TEntity>().Add(entity);
+            return entity;
         }
 
         public TEntity Update(TEntity entity, bool trackChanges)
