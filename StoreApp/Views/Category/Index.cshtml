@@ -1,0 +1,28 @@
+﻿@model List<Category>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            // li elementlerine hover eklendiğinde
+            $('li').hover(
+                function () {
+                    $(this).addClass('active'); // active sınıfını ekle
+                },
+                function () {
+                    $(this).removeClass('active'); // active sınıfını kaldır
+                }
+            );
+        });
+    </script>
+}
+<div class="text-center my-3">
+    <h6 class="display-6">
+        Categories
+    </h6>
+</div>
+<ul class="list-group my-3">
+    @foreach (Category category in Model)
+    {
+        <li class="list-group-item cursor-pointer">@category.CategoryName</li>
+    }
+</ul>

@@ -5,10 +5,10 @@ using System.Linq.Expressions;
 
 namespace Repositories.Concrete.EntityFramework
 {
-    public class EfRepositoryBase<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
+    public class EfRepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, IEntity, new()
     {
         protected readonly RepositoryContext _context;
-        protected EfRepositoryBase(RepositoryContext context)
+        public EfRepositoryBase(RepositoryContext context)
         {
             _context = context;
         }

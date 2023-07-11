@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Repositories.Contracts
 {
-    public interface IEntityRepository<TEntity> where TEntity : class, IEntity, new()
+    public interface IRepositoryBase<TEntity> where TEntity : class, IEntity, new()
     {
         List<TEntity> GetList(bool trackChanges = false, Expression<Func<TEntity, bool>>? filter = null);
         TEntity? Get(Expression<Func<TEntity, bool>> filter, bool trackChanges = false);

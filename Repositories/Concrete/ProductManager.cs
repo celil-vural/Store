@@ -5,7 +5,6 @@ namespace Repositories.Concrete
 {
     public class ProductManager : RepositoryManager<Product>
     {
-        public ProductManager(IEntityRepository<Product> entity) : base(entity) { }
-
+        public ProductManager(IRepositoryBase<Product> entity) : base(entity) { }
     }
 }

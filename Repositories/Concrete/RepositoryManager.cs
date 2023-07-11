@@ -4,37 +4,39 @@ using System.Linq.Expressions;
 
 namespace Repositories.Concrete
 {
-    public class RepositoryManager<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
+    public abstract class RepositoryManager<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        protected readonly IEntityRepository<TEntity> _entity;
-        protected RepositoryManager(IEntityRepository<TEntity> entity)
+        protected readonly IRepositoryBase<TEntity> _repositoryBase;
+        protected RepositoryManager(IRepositoryBase<TEntity> repositoryBase)
         {
-            _entity = entity;
+            _repositoryBase = repositoryBase;
         }
         public List<TEntity> GetList(bool trackChanges = false, Expression<Func<TEntity, bool>> filter = null)
         {
-            return _entity.GetList(trackChanges, filter);
+            return _repositoryBase.GetList(trackChanges, filter);
         }
         public TEntity? Get(Expression<Func<TEntity, bool>> filter, bool trackChanges = false)
         {
-            return _entity.Get(filter, trackChanges);
+            return _repositoryBase.Get(filter, trackChanges);
         }
         public TEntity Add(TEntity entity, bool trackChanges = false)
         {
-            throw new NotImplementedException();
+            _repositoryBase.Add(entity, trackChanges);
+            return entity;
         }
         public TEntity Update(TEntity entity, bool trackChanges = false)
         {
-            throw new NotImplementedException();
+            _repositoryBase.Update(entity, trackChanges);
+            return entity;
         }
 
         public void Delete(TEntity entity, bool trackChanges = false)
         {
-            throw new NotImplementedException();
+            _repositoryBase.Delete(entity, trackChanges);
         }
         public void SaveChanges()
         {
-            _entity.SaveChanges();
+            _repositoryBase.SaveChanges();
         }
     }
 }

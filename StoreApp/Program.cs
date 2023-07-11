@@ -13,10 +13,10 @@ builder.Services.AddDbContext<RepositoryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("sqlconnection"), b => b.MigrationsAssembly("StoreApp"));
 });
 builder.Services.AddScoped<RepositoryManager<Product>, ProductManager>();
-builder.Services.AddScoped<IEntityRepository<Product>, EfRepositoryBase<Product>>();
-//builder.Services.AddScoped<IProductRepository, EfRepositoryBase<Product>>();
+builder.Services.AddScoped<RepositoryManager<Category>, CategoryManager>();
+builder.Services.AddScoped<IRepositoryBase<Product>, EfRepositoryBase<Product>>();
+builder.Services.AddScoped<IRepositoryBase<Category>, EfRepositoryBase<Category>>();
 var app = builder.Build();
-
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -24,5 +24,4 @@ app.UseRouting();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();
