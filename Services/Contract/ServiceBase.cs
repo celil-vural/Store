@@ -1,4 +1,5 @@
-﻿using Entities.Contracts;
+﻿using AutoMapper;
+using Entities.Contracts;
 using Repositories.Contracts;
 
 namespace Services.Contract
@@ -6,9 +7,11 @@ namespace Services.Contract
     public abstract class ServiceBase<TEntity> : IEntityService<TEntity> where TEntity : class, IEntity, new()
     {
         private readonly IEntityRepository<TEntity> _managerBase;
-        protected ServiceBase(IEntityRepository<TEntity> managerBase)
+        private readonly IMapper _mapper;
+        protected ServiceBase(IEntityRepository<TEntity> managerBase, IMapper mapper)
         {
             _managerBase = managerBase;
+            _mapper = mapper;
         }
         public virtual IList<TEntity> GetList(bool trackChanges)
         {
@@ -27,9 +30,7 @@ namespace Services.Contract
             _managerBase.SaveChanges();
             return entity;
         }
-        public virtual void Delete(TEntity entity, bool trackChanges = false)
-        {
-            _managerBase.Delete(entity, trackChanges);
-        }
+
+        public abstract void Delete(int id, bool trackChanges = false);
     }
 }

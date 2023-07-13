@@ -28,14 +28,29 @@
                 <tr>
                     <td>@product.ProductId</td>
                     <td>@product.ProductName</td>
-                    <td>@product.UnitPrice</td>
+                    <td>@product.UnitPrice.ToString("c")</td>
                     <td>@product.CategoryId</td>
                     <td>@product.QuantityPerUnit</td>
                     <td>@product.UnitsInStock</td>
                     <td>@product.UnitsOnOrder</td>
                     <td>@product.SupplierId</td>
                     <td>@product.ReorderLevel</td>
-                    <td>.</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-warning" asp-action="Update" asp-route-id="@product.ProductId">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@product.ProductId">
+                                <i class="fa fa-trash"></i>
+                                Delete
+                            </a>
+                            <a class="btn btn-info" target="_blank" asp-area="" asp-controller="Product" asp-action="Get" asp-route-id="@product.ProductId">
+                                <i class="fa fa-search"></i>
+                                Web
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>

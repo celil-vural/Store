@@ -23,6 +23,7 @@
 <ul class="list-group my-3">
     @foreach (Category category in Model)
     {
-        <li class="list-group-item cursor-pointer">@category.CategoryName</li>
+        <li class="list-group-item">@category.CategoryName</li>
+        <div>@category.Picture</div>
     }
 </ul>

@@ -29,12 +29,13 @@ namespace Repositories.Concrete.EntityFramework
 
         public TEntity Update(TEntity entity, bool trackChanges)
         {
-            throw new NotImplementedException();
+            _context.Set<TEntity>().Update(entity);
+            return entity;
         }
 
         public void Delete(TEntity entity, bool trackChanges)
         {
-            throw new NotImplementedException();
+            _context.Set<TEntity>().Remove(entity);
         }
 
         public void SaveChanges()

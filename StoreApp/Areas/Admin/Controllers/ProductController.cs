@@ -1,5 +1,7 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos.ProductDtos;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Contract;
 
 namespace StoreApp.Areas.Admin.Controllers
@@ -9,7 +11,6 @@ namespace StoreApp.Areas.Admin.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-
         public ProductController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
@@ -24,15 +25,60 @@ namespace StoreApp.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            var entities = _categoryService.GetList().ToList().ToList();
-            ViewBag.Categories = entities;
+            ViewBag.Categories = GetCategoriesSelectList();
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, IFormFile file)
+        {
+            if (ModelState.IsValid)
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                productDto.ImageUrl = String.Concat("/images/", file.FileName);
+                _productService.AddWithDtoForInsertion(productDto);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        public IActionResult Update([FromRoute(Name = "id")] int id)
+        {
+            var model = _productService.GetWithDtoForUpdate(id);
+            ViewBag.Categories = GetCategoriesSelectList();
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([FromForm] Product product)
+        public IActionResult Update(ProductDtoForUpdate productDto)
         {
+            if (ModelState.IsValid)
+            {
+                _productService.UpdateWithDtoForUpdate(productDto, true);
+                return RedirectToAction("Index");
+            }
             return View();
+        }
+        public IActionResult Delete([FromRoute(Name = "id")] int id)
+        {
+            _productService.Delete(id);
+            return RedirectToAction("Index");
+        }
+        private SelectList GetCategoriesSelectList()
+        {
+            var entities = GetCategories();
+            return new SelectList(entities, "CategoryId", "CategoryName", "1");
+        }
+
+        private List<Category>? GetCategories()
+        {
+            var entities = _categoryService.GetList().ToList().ToList();
+            return entities;
         }
     }
 }

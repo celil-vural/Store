@@ -8,6 +8,6 @@ namespace Services.Contract
         TEntity? GetById(int id, bool trackChanges = false);
         TEntity Add(TEntity entity, bool trackChanges = false);
         TEntity Update(TEntity entity, bool trackChanges = false);
-        void Delete(TEntity entity, bool trackChanges = false);
+        void Delete(int id, bool trackChanges = false);
     }
 }
