@@ -5,17 +5,16 @@ namespace StoreApp.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IServiceManager _serviceManager;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(IServiceManager serviceManager)
         {
-            _categoryService = categoryService;
+            _serviceManager = serviceManager;
         }
-
 
         public IActionResult Index()
         {
-            var model = _categoryService.GetList().ToList();
+            var model = _serviceManager.CategoryService.GetList().ToList();
             return View(model);
         }
     }
