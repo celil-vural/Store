@@ -14,7 +14,7 @@ namespace StoreApp.Components
 
         public IViewComponentResult Invoke()
         {
-            var categories = _categoryService.GetList().ToList();
+            var categories = _categoryService.GetList()?.ToList();
             return View(categories);
         }
     }

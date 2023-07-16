@@ -23,5 +23,42 @@ namespace StoreApp.Infrastructe.Extensions
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
             });
         }
+
+        public static void ConfigureLocalization(this WebApplication application)
+        {
+            application.UseRequestLocalization(options =>
+            {
+                options.AddSupportedCultures("en-US", "tr-TR").AddSupportedUICultures("en-US", "tr-TR").SetDefaultCulture("tr-TR");
+            });
+        }
+
+        /*public static void ConfigureSwagger(this WebApplication application)
+        {
+            application.UseSwagger();
+            application.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreApp API V1");
+            });
+        }*/
+        public static void ConfigureRouting(this IServiceCollection services)
+        {
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+                options.AppendTrailingSlash = false;
+            });
+        }
+
+        public static void ConfigureEndPoints(this WebApplication application)
+        {
+            application.UseEndpoints(endpoint =>
+            {
+                endpoint.MapAreaControllerRoute(
+                    name: "Admin", areaName: "Admin", pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+                endpoint.MapControllerRoute(name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoint.MapRazorPages();
+            });
+        }
     }
 }

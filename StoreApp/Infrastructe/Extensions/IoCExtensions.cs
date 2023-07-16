@@ -17,7 +17,7 @@ namespace StoreApp.Infrastructe.Extensions
             services.AddScoped<Cart>(SessionCart.GetCart);
 
             //Repository Managers
-            services.AddScoped<IProductManager, ProductManager>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryManager, CategoryManager>();
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<IOrderDetailManager, OrderDetailManager>();

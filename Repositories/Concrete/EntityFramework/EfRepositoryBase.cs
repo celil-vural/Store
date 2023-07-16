@@ -14,23 +14,28 @@ namespace Repositories.Concrete.EntityFramework
         }
         public IList<TEntity>? GetList(bool trackChanges, Expression<Func<TEntity, bool>>? filter = null)
         {
-            if (filter == null) return trackChanges ? _context.Set<TEntity>().ToList() : _context.Set<TEntity>().AsNoTracking().ToList();
-            return trackChanges ? _context.Set<TEntity>().Where(filter).ToList() : _context.Set<TEntity>().AsNoTracking().Where(filter).ToList();
+            var query = trackChanges ? _context.Set<TEntity>().AsQueryable() : _context.Set<TEntity>().AsNoTracking();
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            return query.ToList();
         }
         public TEntity? Get(Expression<Func<TEntity, bool>> filter, bool trackChanges)
         {
-            return trackChanges ? _context.Set<TEntity>().SingleOrDefault(filter) : _context.Set<TEntity>().AsNoTracking().SingleOrDefault(filter);
+            var query = trackChanges ? _context.Set<TEntity>().AsQueryable() : _context.Set<TEntity>().AsNoTracking();
+            return query.SingleOrDefault(filter);
         }
         public TEntity Add(TEntity entity, bool trackChanges)
         {
-            _context.Set<TEntity>().Add(entity);
-            return entity;
+            var entry = _context.Set<TEntity>().Add(entity);
+            return entry.Entity;
         }
 
         public TEntity Update(TEntity entity, bool trackChanges)
         {
-            _context.Set<TEntity>().Update(entity);
-            return entity;
+            var entry = _context.Set<TEntity>().Update(entity);
+            return entry.Entity;
         }
 
         public void Delete(TEntity entity, bool trackChanges)
