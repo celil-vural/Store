@@ -12,7 +12,7 @@ namespace Repositories.Concrete.EntityFramework
         {
             _context = context;
         }
-        public List<TEntity> GetList(bool trackChanges, Expression<Func<TEntity, bool>>? filter = null)
+        public IList<TEntity>? GetList(bool trackChanges, Expression<Func<TEntity, bool>>? filter = null)
         {
             if (filter == null) return trackChanges ? _context.Set<TEntity>().ToList() : _context.Set<TEntity>().AsNoTracking().ToList();
             return trackChanges ? _context.Set<TEntity>().Where(filter).ToList() : _context.Set<TEntity>().AsNoTracking().Where(filter).ToList();

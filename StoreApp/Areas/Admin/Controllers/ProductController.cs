@@ -19,7 +19,7 @@ namespace StoreApp.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var entities = _productService.GetList().ToList();
+            var entities = _productService.GetList()?.ToList() ?? new List<Product>();
             return View(entities);
         }
 
@@ -77,7 +77,7 @@ namespace StoreApp.Areas.Admin.Controllers
 
         private List<Category>? GetCategories()
         {
-            var entities = _categoryService.GetList().ToList().ToList();
+            var entities = _categoryService.GetList()?.ToList() ?? new List<Category>();
             return entities;
         }
     }

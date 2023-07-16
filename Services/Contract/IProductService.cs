@@ -6,8 +6,8 @@ namespace Services.Contract
 {
     public interface IProductService : IEntityService<Product>
     {
-        public Product AddWithDtoForInsertion(IDto dtoEntity, bool trackChanges = false);
-        public ProductDtoForUpdate UpdateWithDtoForUpdate(ProductDtoForUpdate productDto, bool trackChanges = false);
-        public ProductDtoForUpdate GetWithDtoForUpdate(int id, bool trackChanges = false);
+        public Product? AddWithDtoForInsertion(IDto dtoEntity, bool trackChanges = false);
+        public ProductDtoForUpdate? UpdateWithDtoForUpdate(ProductDtoForUpdate productDto, bool trackChanges = false);
+        public ProductDtoForUpdate? GetWithDtoForUpdate(int id, bool trackChanges = false);
     }
 }

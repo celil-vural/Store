@@ -1,0 +1,54 @@
+﻿@using Services.Contract
+@model Order
+<div class="row shadow my-3">
+    <div class="col-md-4 border-1 p-3 bg-light shadow">
+        <h5 class="display-5 text-center">
+            <i class="fa-solid fa-address-book text-danger"></i>
+            <br/>
+            @Model.ShipName
+        </h5>
+        <p>@Model.ShipAddress</p>
+        <p>@Model.ShipCity</p>
+        <p>@Model.ShipRegion</p>
+        <p>@Model.ShipPostalCode</p>
+        <p>@Model.ShipCountry</p>
+        <p class="rounded-2 p-3">
+            <span class="bg-warning p-2">Shipped</span>
+            <span class="bg-info p-2">@(Model.Shipped?"Completed":"In Progress")</span>
+        </p>
+    </div>
+    <div class="col-md-8">
+        <h6 class="display-6 mt-3 text-center">
+            Cart
+        </h6>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach(var cartItem in Model.OrderDetails??new List<OrderDetail>())
+            {
+                <tr>
+                    <td>@cartItem.ProductName</td>
+                    <td>@cartItem.UnitPrice</td>
+                    <td>@cartItem.Quantity</td>
+                    <td>@cartItem.Discount</td>
+                    <td>@((cartItem.Quantity * cartItem.UnitPrice).ToString("c2"))</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="text-center mt-2">
+            <form method="post" asp-action="Complete">
+                <input type="hidden" name="orderId" value="@Model.OrderId"/>
+                <button type="submit" disabled="@Model.Shipped" class="btn btn-outline-success">Complete</button>
+            </form>
+        </div>
+    </div>
+</div>

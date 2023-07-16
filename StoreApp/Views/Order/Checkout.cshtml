@@ -1,0 +1,42 @@
+﻿@model Entities.Dtos.OrderDtos.OrderDtoForInsertion
+<div class="text-danger" asp-validation-summary="All"></div>
+<form method="post" asp-action="Checkout">
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipName"></label>
+        <input class="form-control" asp-for="ShipName"/>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipCity"></label>
+        <input class="form-control" asp-for="ShipCity"/>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipCountry"></label>
+        <input class="form-control" asp-for="ShipCountry"/>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipRegion"></label>
+        <input class="form-control" asp-for="ShipRegion"/>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipAddress"></label>
+        <input class="form-control" asp-for="ShipAddress"/>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipPostalCode"></label>
+        <input class="form-control" asp-for="ShipPostalCode"/>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="ShipVia"></label>
+        <select asp-items="@ViewBag.Shippers" asp-for="ShipVia" class="form-select"></select>
+    </div>
+    <div class="form-group my-2">
+        <label class="form-label" asp-for="Freight"></label>
+        <input class="form-control" disabled asp-for="Freight"/>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-outline-success">
+            <i class="fa-solid fa-check"></i>
+            Checkout
+        </button>
+    </div>
+</form>

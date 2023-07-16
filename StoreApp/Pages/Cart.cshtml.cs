@@ -8,7 +8,6 @@ namespace StoreApp.Pages
     public class CartModel : PageModel
     {
         private readonly IProductService _productService;
-
         public CartModel(IProductService productService, Cart cart)
         {
             _productService = productService;
@@ -27,18 +26,37 @@ namespace StoreApp.Pages
             Product? product = _productService.GetById(productId, false);
             if (product is not null)
             {
-                Cart.AddItem(product, 1);
+                Cart.AddItem(product, Convert.ToInt16(1));
             }
-
+            return RedirectToPage(new { returnUrl = returnUrl });
+        }
+        public IActionResult OnPostRemove(int productId, string returnUrl)
+        {
+            var orderDetail = Cart.Lines.FirstOrDefault(cl => cl.ProductId.Equals(productId));
+            if (orderDetail is not null)
+            {
+                Cart.RemoveLine(orderDetail);
+            }
             return Page();
         }
 
-        public IActionResult OnPostRemove(int productId, string returnUrl)
+        public IActionResult OnPostIncrease([FromForm] int productId)
         {
-            var product = Cart.Lines.FirstOrDefault(cl => cl.Product.ProductId.Equals(productId))?.Product;
+            Product? product = _productService.GetById(productId, false);
             if (product is not null)
             {
-                Cart.RemoveLine(product);
+                Cart.AddItem(product, Convert.ToInt16(1));
+            }
+            return Page();
+
+        }
+
+        public IActionResult OnPostDecrease([FromForm] int productId)
+        {
+            var product = _productService.GetById(productId, false);
+            if (product is not null)
+            {
+                Cart.RemoveItem(productId);
             }
             return Page();
         }

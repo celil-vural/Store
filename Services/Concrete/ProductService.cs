@@ -15,7 +15,7 @@ namespace Services.Concrete
             _managerBase = managerBase;
             _mapper = mapper;
         }
-        public override Product? GetById(int id, bool trackChanges)
+        public override Product? GetById(int id, bool trackChanges = false)
         {
             var entity = _managerBase.Get(p => p.ProductId.Equals(id), trackChanges);
             return entity ?? throw new Exception("Product Not Found!");
@@ -41,13 +41,13 @@ namespace Services.Concrete
             _managerBase.Delete(product, trackChanges);
             _managerBase.SaveChanges();
         }
-        public Product AddWithDtoForInsertion(IDto dtoEntity, bool trackChanges = false)
+        public Product? AddWithDtoForInsertion(IDto dtoEntity, bool trackChanges = false)
         {
             Product entity = _mapper.Map<Product>(dtoEntity);
             _managerBase.Add(entity, trackChanges);
             return entity;
         }
-        public ProductDtoForUpdate UpdateWithDtoForUpdate(ProductDtoForUpdate productDto, bool trackChanges = false)
+        public ProductDtoForUpdate? UpdateWithDtoForUpdate(ProductDtoForUpdate productDto, bool trackChanges = false)
         {
             var entity = _mapper.Map<Product>(productDto);
             var product = _managerBase.Update(entity, trackChanges);
@@ -55,7 +55,7 @@ namespace Services.Concrete
             return productDto;
         }
 
-        public ProductDtoForUpdate GetWithDtoForUpdate(int id, bool trackChanges = false)
+        public ProductDtoForUpdate? GetWithDtoForUpdate(int id, bool trackChanges = false)
         {
             var product = GetById(id, trackChanges);
             var productDto = _mapper.Map<ProductDtoForUpdate>(product);

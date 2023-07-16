@@ -2,7 +2,7 @@
 
 namespace Entities.Dtos.ProductDtos
 {
-    public record class ProductDtoForUpdate : ProductDto, IDtoUpdateItem
+    public record ProductDtoForUpdate : ProductDto, IDtoUpdateItem
     {
     }
 }

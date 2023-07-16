@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Dtos.ProductDtos
 {
-    public record class ProductDto : IDto
+    public record ProductDto : IDto
     {
         public int ProductId { get; init; }
         [Required(ErrorMessage = "Product Name is required")]

@@ -1,30 +1,16 @@
-using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using Repositories.Concrete;
-using Repositories.Concrete.EntityFramework;
-using Repositories.Contracts;
-using Services.Concrete;
-using Services.Contract;
+using StoreApp.Infrastructe.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<RepositoryContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlconnection"), b => b.MigrationsAssembly("StoreApp"));
-});
-builder.Services.AddScoped<IProductManager, ProductManager>();
-builder.Services.AddScoped<ICategoryManager, CategoryManager>();
-builder.Services.AddScoped<IRepositoryBase<Product>, EfRepositoryBase<Product>>();
-builder.Services.AddScoped<IRepositoryBase<Category>, EfRepositoryBase<Category>>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddSingleton<IServiceManager, ServiceManager>();
-builder.Services.AddSingleton<Cart>();
+builder.Services.ConfigureDb(builder.Configuration);
+builder.Services.ConfigureSession();
+builder.Services.AddDependencies();
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 app.UseStaticFiles();
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseRouting();
 

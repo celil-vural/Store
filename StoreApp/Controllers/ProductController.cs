@@ -6,8 +6,8 @@ namespace StoreApp.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IServiceManager _serviceManager;
-        public ProductController(IServiceManager serviceManager)
+        private readonly IProductService _serviceManager;
+        public ProductController(IProductService serviceManager)
         {
             _serviceManager = serviceManager;
         }
@@ -15,13 +15,13 @@ namespace StoreApp.Controllers
 
         public IActionResult Index()
         {
-            var model = _serviceManager.ProductService.GetList().ToList();
+            var model = _serviceManager.GetList()?.ToList() ?? new List<Product>();
             return View(model);
         }
 
         public IActionResult Get([FromRoute(Name = "id")] int id)
         {
-            Product? product = _serviceManager.ProductService.GetById(id);
+            Product? product = _serviceManager.GetById(id);
             return View(product);
         }
     }

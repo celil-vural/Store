@@ -1,4 +1,7 @@
 ﻿@model List<Category>
+<script>
+    @Html.Raw(ViewBag.ConsoleLogScript)
+</script>
 @section Scripts
 {
     <script>
@@ -19,11 +22,22 @@
     <h6 class="display-6">
         Categories
     </h6>
+    @foreach (Order order in ViewBag.Orders)
+    {
+        <h1 class="display-6">
+            @order.OrderDetails?.Count
+        </h1>
+    }
 </div>
 <ul class="list-group my-3">
     @foreach (Category category in Model)
     {
-        <li class="list-group-item">@category.CategoryName</li>
-        <div>@category.Picture</div>
+        string base64String = Convert.ToBase64String(category.Picture);
+        string imageSrc = string.Format("data:image/png;base64,{0}", base64String);
+
+        <li class="list-group-item">
+            @category.CategoryName
+            <img src="@imageSrc" alt="Photo" />
+        </li>
     }
 </ul>
