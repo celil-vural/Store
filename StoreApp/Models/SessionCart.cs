@@ -1,5 +1,5 @@
 ﻿using Entities.Models;
-using StoreApp.Infrastructe.Extensions;
+using StoreApp.Infrastructure.Extensions;
 using System.Text.Json.Serialization;
 
 namespace StoreApp.Models
@@ -34,9 +34,9 @@ namespace StoreApp.Models
             base.RemoveItem(productId);
             Session?.SetJson("Cart", this);
         }
-        public override void RemoveLine(OrderDetail orderDetail)
+        public override void RemoveLine(CartLine cartLine)
         {
-            base.RemoveLine(orderDetail);
+            base.RemoveLine(cartLine);
             Session?.SetJson("Cart", this);
         }
     }

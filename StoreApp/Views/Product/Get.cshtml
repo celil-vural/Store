@@ -5,24 +5,25 @@
             <h6 class="display-6">
                 @Model.ProductName
             </h6>
-            <p class="lead">@Model.UnitPrice.ToString("c")</p>
+            <img class="img-fluid shadow rounded-3 p-5 my-3" src="@Model?.ImageUrl" alt="@Model.ProductName" />
+            <p class="lead">@Model.Price.ToString("c")</p>
         </div>
     </div>
 </div>
 <div class="text-center">
     <div class="btn-group">
-        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">
+        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">
             <i class="fa-solid fa-house"></i>
             Home
         </a>
         <form method="post" asp-page="/cart" id="@Model.ProductId">
             <input type="hidden" asp-for="ProductId" />
             <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-            <button type="submit" class="btn btn-outline-success">
+            <button type="submit" class="btn btn-outline-secondary rounded-0">
                 <i class="fa-solid fa-cart-plus"></i>
                 Add to Cart></button>
         </form>
-        <a class="btn btn-outline-primary" asp-controller="Product" asp-action="Index">
+        <a class="btn btn-outline-secondary" asp-controller="Product" asp-action="Index">
             <i class="fa-solid fa-list"></i>
             Products
         </a>

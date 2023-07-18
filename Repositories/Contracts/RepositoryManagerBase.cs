@@ -10,7 +10,7 @@ namespace Repositories.Contracts
         {
             _repositoryBase = repositoryBase;
         }
-        public IList<TEntity>? GetList(bool trackChanges = false, Expression<Func<TEntity, bool>>? filter = null)
+        public IEnumerable<TEntity>? GetList(bool trackChanges = false, Expression<Func<TEntity, bool>>? filter = null)
         {
             return _repositoryBase.GetList(trackChanges, filter);
         }

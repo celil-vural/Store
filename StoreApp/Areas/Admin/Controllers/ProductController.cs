@@ -1,4 +1,4 @@
-﻿using Entities.Dtos.ProductDtos;
+﻿using Entities.Dtos.Product;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

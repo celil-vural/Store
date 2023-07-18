@@ -4,22 +4,20 @@ namespace Entities.Models
 {
     public class Cart : IEntity
     {
-        public List<OrderDetail> Lines { get; set; }
+        public List<CartLine> Lines { get; set; }
         public Cart()
         {
-            Lines = new List<OrderDetail>();
+            Lines = new List<CartLine>();
         }
         public virtual void AddItem(Product product, short quantity)
         {
             var line = Lines
-                .FirstOrDefault(p => p.ProductId.Equals(product.ProductId));
+                .FirstOrDefault(p => p.Product.ProductId.Equals(product.ProductId));
             if (line is null)
             {
-                Lines.Add(new OrderDetail()
+                Lines.Add(new CartLine()
                 {
-                    ProductId = product.ProductId,
-                    UnitPrice = product.UnitPrice,
-                    Discount = 0,
+                    Product = product,
                     Quantity = quantity
                 });
             }
@@ -32,12 +30,12 @@ namespace Entities.Models
         public virtual void RemoveItem(int productId)
         {
             var line = Lines
-                .FirstOrDefault(p => p.ProductId.Equals(productId));
+                .FirstOrDefault(p => p.Product.ProductId.Equals(productId));
             if (line is not null)
             {
                 if (line.Quantity <= 1)
                 {
-                    RemoveLine(new OrderDetail() { ProductId = productId });
+                    RemoveLine(new CartLine() { Product = new Product() { ProductId = productId } });
                 }
                 else
                 {
@@ -46,9 +44,9 @@ namespace Entities.Models
             }
 
         }
-        public virtual void RemoveLine(OrderDetail order) =>
-            Lines.RemoveAll(l => l.ProductId.Equals(order.ProductId));
-        public virtual decimal ComputeTotalValue() => Lines.Sum(e => e.UnitPrice * e.Quantity);
+        public virtual void RemoveLine(CartLine cartLine) =>
+            Lines.RemoveAll(l => l.Product.ProductId.Equals(cartLine.Product.ProductId));
+        public virtual decimal ComputeTotalValue() => Lines.Sum(e => e.Product.Price * e.Quantity);
         public virtual void Clear() => Lines.Clear();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Entities.Contracts;
-using Entities.Dtos.ProductDtos;
+using Entities.Dtos.Product;
 using Entities.Models;
 using Entities.RequestParameters;
 using Repositories.Contracts;
@@ -9,50 +8,46 @@ namespace Services.Concrete
 {
     public class ProductService : ServiceBase<Product>, IProductService
     {
-        private readonly IProductRepository _repositoryBase;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        public ProductService(IProductRepository repositoryBase, IMapper mapper) : base(repositoryBase, mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper) : base(productRepository, mapper)
         {
-            _repositoryBase = repositoryBase;
+            _productRepository = productRepository;
             _mapper = mapper;
         }
         public override Product? GetById(int id, bool trackChanges = false)
         {
-            var entity = _repositoryBase.Get(p => p.ProductId.Equals(id), trackChanges);
+            var entity = _productRepository.Get(p => p.ProductId.Equals(id), trackChanges);
             return entity ?? throw new Exception("Product Not Found!");
         }
         public override Product Update(Product entity, bool trackChanges = false)
         {
-            var product = _repositoryBase.Get(p => p.ProductId.Equals(entity.ProductId), trackChanges);
+            var product = _productRepository.Get(p => p.ProductId.Equals(entity.ProductId), trackChanges);
             product!.ProductName = entity.ProductName;
             product.CategoryId = entity.CategoryId;
-            product.UnitPrice = entity.UnitPrice;
-            product.UnitsInStock = entity.UnitsInStock;
-            product.QuantityPerUnit = entity.QuantityPerUnit;
-            product.ReorderLevel = entity.ReorderLevel;
-            product.UnitsOnOrder = entity.UnitsOnOrder;
-            product.SupplierId = entity.SupplierId;
-            _repositoryBase.SaveChanges();
+            product.Price = entity.Price;
+            _productRepository.SaveChanges();
             return product;
         }
         public override void Delete(int id, bool trackChanges = false)
         {
             Product? product = GetById(id, trackChanges);
             if (product == null) throw new Exception("Product Not Found!");
-            _repositoryBase.Delete(product, trackChanges);
-            _repositoryBase.SaveChanges();
+            _productRepository.Delete(product, trackChanges);
+            _productRepository.SaveChanges();
         }
-        public Product? AddWithDtoForInsertion(IDto dtoEntity, bool trackChanges = false)
+        public Product? AddWithDtoForInsertion(ProductDtoForInsertion productDto, bool trackChanges = false)
         {
-            Product entity = _mapper.Map<Product>(dtoEntity);
-            _repositoryBase.Add(entity, trackChanges);
+            Product entity = _mapper.Map<Product>(productDto);
+            _productRepository.Add(entity, trackChanges);
             return entity;
         }
+
         public ProductDtoForUpdate? UpdateWithDtoForUpdate(ProductDtoForUpdate productDto, bool trackChanges = false)
         {
             var entity = _mapper.Map<Product>(productDto);
-            var product = _repositoryBase.Update(entity, trackChanges);
-            _repositoryBase.SaveChanges();
+            var product = _productRepository.Update(entity, trackChanges);
+            _productRepository.SaveChanges();
             return productDto;
         }
 
@@ -63,9 +58,27 @@ namespace Services.Concrete
             return productDto;
         }
 
-        public List<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters)
+        public IEnumerable<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters)
         {
-            return _repositoryBase.GetAllProductsWithDetails(parameters);
+            return _productRepository.GetAllProductsWithDetails(parameters);
+        }
+
+        public List<Product>? GetLastestProducts(int count, bool trackChanges = false)
+        {
+            return GetList()?.OrderByDescending(p => p.ProductId).Take(count).ToList();
+        }
+
+        public IEnumerable<Product>? GetShowcaseProducts(bool trackChanges = false)
+        {
+            var products = _productRepository.GetShowcaseProducts(trackChanges);
+            return products;
+        }
+
+        public ProductDtoForUpdate? GetOneProductForUpdate(int id, bool trackChanges = false)
+        {
+            var product = GetById(id);
+            var productDto = _mapper.Map<ProductDtoForUpdate>(product);
+            return productDto;
         }
     }
 }

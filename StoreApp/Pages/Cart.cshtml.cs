@@ -32,7 +32,7 @@ namespace StoreApp.Pages
         }
         public IActionResult OnPostRemove(int productId, string returnUrl)
         {
-            var orderDetail = Cart.Lines.FirstOrDefault(cl => cl.ProductId.Equals(productId));
+            var orderDetail = Cart.Lines.FirstOrDefault(cl => cl.Product.ProductId.Equals(productId));
             if (orderDetail is not null)
             {
                 Cart.RemoveLine(orderDetail);

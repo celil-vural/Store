@@ -5,28 +5,28 @@ namespace Services.Contract
 {
     public abstract class ServiceBase<TEntity> : IEntityService<TEntity> where TEntity : class, IEntity, new()
     {
-        private readonly IEntityRepository<TEntity> _repositoryBase;
+        private readonly IEntityRepository<TEntity> _categoryProductRepository;
         private readonly IMapper _mapper;
-        protected ServiceBase(IEntityRepository<TEntity> repositoryBase, IMapper mapper)
+        protected ServiceBase(IEntityRepository<TEntity> categoryProductRepository, IMapper mapper)
         {
-            _repositoryBase = repositoryBase;
+            _categoryProductRepository = categoryProductRepository;
             _mapper = mapper;
         }
-        public virtual IList<TEntity>? GetList(bool trackChanges = false)
+        public virtual IEnumerable<TEntity>? GetList(bool trackChanges = false)
         {
-            return _repositoryBase.GetList(trackChanges);
+            return _categoryProductRepository.GetList(trackChanges);
         }
         public abstract TEntity? GetById(int id, bool trackChanges = false);
         public virtual TEntity Add(TEntity entity, bool trackChanges = false)
         {
-            _repositoryBase.Add(entity, trackChanges);
-            _repositoryBase.SaveChanges();
+            _categoryProductRepository.Add(entity, trackChanges);
+            _categoryProductRepository.SaveChanges();
             return entity;
         }
         public virtual TEntity Update(TEntity entity, bool trackChanges = false)
         {
-            _repositoryBase.Update(entity, trackChanges);
-            _repositoryBase.SaveChanges();
+            _categoryProductRepository.Update(entity, trackChanges);
+            _categoryProductRepository.SaveChanges();
             return entity;
         }
         public abstract void Delete(int id, bool trackChanges = false);

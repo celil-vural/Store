@@ -1,14 +1,13 @@
-﻿using Entities.Dtos.OrderDtos;
-using Entities.Models;
+﻿using Entities.Models;
 
 namespace Services.Contract
 {
-    public interface IOrderService : IEntityService<Order>, IServiceWithDto<Order, OrderDtoForUpdate>
+    public interface IOrderService : IEntityService<Order>
     {
         void Complete(int id);
-        void SaveOrder(OrderDtoForInsertion order, bool trackChanges = false);
-        int NumberOfInProcess();
-        IList<Order>? GetIncludeOrders(List<Order> orders);
-        public Order? GetIncludeOrder(Order order);
+        void SaveOrder(Order order, bool trackChanges = false);
+        int NumberOfInProcess { get; }
+        IEnumerable<Order>? GetOrders(List<Order> orders);
+        public Order? GetOrder(Order order);
     }
 }

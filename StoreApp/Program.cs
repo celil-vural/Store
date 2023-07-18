@@ -1,4 +1,4 @@
-using StoreApp.Infrastructe.Config;
+using StoreApp.Infrastructure.Config;
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureBuilder();
 var app = builder.Build();

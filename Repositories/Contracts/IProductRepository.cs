@@ -5,6 +5,7 @@ namespace Repositories.Contracts
 {
     public interface IProductRepository : IEntityRepository<Product>
     {
-        List<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters);
+        IEnumerable<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters);
+        IEnumerable<Product>? GetShowcaseProducts(bool trackChanges);
     }
 }

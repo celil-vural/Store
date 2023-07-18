@@ -2,27 +2,38 @@ using Entities.Models;
 using Entities.RequestParameters;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
+using StoreApp.Models;
 
 namespace StoreApp.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _serviceManager;
-        public ProductController(IProductService serviceManager)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _serviceManager = serviceManager;
+            _productService = productService;
         }
 
 
         public IActionResult Index(ProductRequestParameters p)
         {
-            var model = _serviceManager.GetAllProductsWithDetails(p);
-            return View(model);
+            var products = _productService.GetAllProductsWithDetails(p) ?? new List<Product>();
+            var pagination = new Pagination()
+            {
+                CurrentPage = p.PageNumber,
+                ItemsPerPage = p.PageSize,
+                TotalItems = _productService.GetList()?.Count() ?? 0
+            };
+            return View(new ProductListViewModel()
+            {
+                Products = products.ToList(),
+                Pagination = pagination
+            });
         }
 
         public IActionResult Get([FromRoute(Name = "id")] int id)
         {
-            Product? product = _serviceManager.GetById(id);
+            Product? product = _productService.GetById(id);
             return View(product);
         }
     }

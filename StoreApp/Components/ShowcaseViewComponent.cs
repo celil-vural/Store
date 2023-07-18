@@ -13,7 +13,7 @@ namespace StoreApp.Components
         }
         public IViewComponentResult Invoke()
         {
-            var products = _productService.GetList();
+            var products = _productService.GetList()?.ToList();
             return View(products);
         }
     }

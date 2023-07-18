@@ -1,38 +1,41 @@
-﻿@model Entities.Dtos.OrderDtos.OrderDtoForInsertion
+﻿@model Order
 <div class="text-danger" asp-validation-summary="All"></div>
 <form method="post" asp-action="Checkout">
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipName"></label>
-        <input class="form-control" asp-for="ShipName"/>
+
+    <div class="form-group my-3">
+        <label asp-for="Name" ></label>
+        <input class="form-control" asp-for="Name" >
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipCity"></label>
-        <input class="form-control" asp-for="ShipCity"/>
+
+    <div class="form-group my-3">
+        <label asp-for="Line1" ></label>
+        <input class="form-control" asp-for="Line1" >
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipCountry"></label>
-        <input class="form-control" asp-for="ShipCountry"/>
+    <div class="form-group my-3">
+        <label asp-for="Line1" ></label>
+        <input class="form-control" asp-for="Line1" >
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipRegion"></label>
-        <input class="form-control" asp-for="ShipRegion"/>
+
+    <div class="form-group my-3">
+        <label asp-for="Line2" ></label>
+        <input class="form-control" asp-for="Line2" >
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipAddress"></label>
-        <input class="form-control" asp-for="ShipAddress"/>
+
+    <div class="form-group my-3">
+        <label asp-for="Line3" ></label>
+        <input class="form-control" asp-for="Line3" >
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipPostalCode"></label>
-        <input class="form-control" asp-for="ShipPostalCode"/>
+
+    <div class="form-group my-3">
+        <label asp-for="City" ></label>
+        <input class="form-control" asp-for="City" >
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="ShipVia"></label>
-        <select asp-items="@ViewBag.Shippers" asp-for="ShipVia" class="form-select"></select>
+
+    <div class="form-group my-3">
+        <input asp-for="GiftWrap" >
+        <label>Gift wrap these items.</label>
     </div>
-    <div class="form-group my-2">
-        <label class="form-label" asp-for="Freight"></label>
-        <input class="form-control" disabled asp-for="Freight"/>
-    </div>
+
     <div class="text-center">
         <button type="submit" class="btn btn-outline-success">
             <i class="fa-solid fa-check"></i>

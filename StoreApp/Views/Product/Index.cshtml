@@ -1,4 +1,4 @@
-@model List<Product>
+@model StoreApp.Models.ProductListViewModel
 @section Scripts
     {
     <script>
@@ -9,14 +9,7 @@
                 $(this).val(sanitizedValue);
             });
             // li elementlerine hover eklendiðinde
-            $('li').hover(
-                function () {
-                    $(this).addClass('active'); // active sýnýfýný ekle
-                },
-                function () {
-                    $(this).removeClass('active'); // active sýnýfýný kaldýr
-                }
-            );
+
             $('#minPriceInput').on('input',function(){
                 var minPrice = parseFloat($(this).val());
                 if (!isNaN(minPrice) && minPrice<0) {
@@ -53,18 +46,26 @@
     <div class="col-md-3">
         @await Component.InvokeAsync("CategoriesMenu")
         @await Component.InvokeAsync("ProductFilterMenu")
+        <div lastest-product="3" ></div>
     </div>
     <div class="col-md-9">
         <div class="row my-3">
-            @foreach(Product prd in Model)
+            @foreach(Product prd in Model.Products)
             {
                 <partial name="_ProductCard" model="@prd"/>
             }
         </div>
     </div>
-</div>
-@section Footer{
-    <div>
-        On
+    <div class="text-center my-5">
+        <div
+            class="btn-group"
+            page-class="btn"
+            page-class-enabled="true"
+            page-class-normal="btn-outline-secondary"
+            page-class-selected="btn-secondary"
+            page-model="@Model.Pagination"
+            page-action="Index">
+
+        </div>
     </div>
-}
+</div>

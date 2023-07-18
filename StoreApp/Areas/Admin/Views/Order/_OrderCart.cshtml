@@ -1,17 +1,19 @@
-﻿@using Services.Contract
-@model Order
+﻿@model Order
+@{
+    var total = @Model.Lines.Sum(c => c.Product.Price * c.Quantity);
+}
+
 <div class="row shadow my-3">
     <div class="col-md-4 border-1 p-3 bg-light shadow">
         <h5 class="display-5 text-center">
             <i class="fa-solid fa-address-book text-danger"></i>
             <br/>
-            @Model.ShipName
+            @Model.Name
         </h5>
-        <p>@Model.ShipAddress</p>
-        <p>@Model.ShipCity</p>
-        <p>@Model.ShipRegion</p>
-        <p>@Model.ShipPostalCode</p>
-        <p>@Model.ShipCountry</p>
+        <p>@Model?.Line1</p>
+        <p>@Model?.Line2</p>
+        <p>@Model?.Line3</p>
+        <p>@Model?.City</p>
         <p class="rounded-2 p-3">
             <span class="bg-warning p-2">Shipped</span>
             <span class="bg-info p-2">@(Model.Shipped?"Completed":"In Progress")</span>
@@ -27,19 +29,17 @@
                 <th>Product</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Discount</th>
                 <th>Subtotal</th>
             </tr>
             </thead>
             <tbody>
-            @foreach(var cartItem in Model.OrderDetails??new List<OrderDetail>())
+            @foreach(var cartItem in Model.Lines)
             {
                 <tr>
-                    <td>@cartItem.ProductName</td>
-                    <td>@cartItem.UnitPrice</td>
+                    <td>@cartItem.Product.ProductName</td>
+                    <td>@cartItem.Product.Price</td>
                     <td>@cartItem.Quantity</td>
-                    <td>@cartItem.Discount</td>
-                    <td>@((cartItem.Quantity * cartItem.UnitPrice).ToString("c2"))</td>
+                    <td>@((cartItem.Quantity * cartItem.Product.Price).ToString("c2"))</td>
                 </tr>
             }
             </tbody>

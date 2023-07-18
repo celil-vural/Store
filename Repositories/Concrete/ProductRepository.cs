@@ -8,14 +8,22 @@ namespace Repositories.Concrete
     public sealed class ProductRepository : RepositoryManagerBase<Product>, IProductRepository
     {
         public ProductRepository(IRepositoryBase<Product> entity) : base(entity) { }
-        public List<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters)
+        public IEnumerable<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters)
         {
             if (parameters != null)
                 return GetList()?
                     .FilteredProductsByCategorId(parameters?.CategoryId)
                     .FilteredProductsBySearchTerm(parameters?.SearchTerm)
-                    .FilterByPriceRange(parameters.MinPrice, parameters.MaxPrice, parameters.IsValidPriceRange);
-            return GetList()?.ToList();
+                    .FilterByPriceRange(parameters?.MinPrice ?? 0, parameters?.MaxPrice ?? decimal.MaxValue, parameters?.IsValidPriceRange)
+                    .SortBy(parameters?.SortBy)
+                    .ToPaginatedList(parameters?.PageNumber, parameters?.PageSize);
+            return GetList();
+        }
+
+        public IEnumerable<Product>? GetShowcaseProducts(bool trackChanges)
+        {
+            return GetList(trackChanges)?
+                .Where(p => p.ShowCase.Equals(true));
         }
     }
 }
