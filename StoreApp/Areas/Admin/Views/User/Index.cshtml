@@ -26,13 +26,14 @@
                 <td user-name="@user.UserName" user-role></td>
                 <td>
                     <div class="btn-group">
-                        <a class="btn btn-sm btn-warning rounded-3" asp-route-id="@user.UserName" asp-action="Update">Edit</a>
+                        <a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-sm btn-warning rounded-3" asp-route-id="@user.UserName" asp-action="Update">
+                            <i class="fa fa-edit"></i>
+                        </a>
                         <a class="btn btn-sm btn-info rounded-3" asp-route-id="@user.UserName" asp-action="ResetPassword">Reset Password</a>
                         <form method="post" asp-action="DeleteUser">
-                            <input type="hidden" name="UserName" value="@user.UserName" />
+                            <input data-toggle="tooltip" data-placement="top" title="Delete" type="hidden" name="UserName" value="@user.UserName" />
                             <button type="submit" class="btn btn-sm btn-danger rounded-3">
                                 <i class="fa-solid fa-trash"></i>
-                                Delete
                             </button>
                         </form>
                     </div>
