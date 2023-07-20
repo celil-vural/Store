@@ -6,7 +6,7 @@ namespace StoreApp.Infrastructure.Config
     {
         public static void ConfigureBuilder(this WebApplicationBuilder builder)
         {
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReferance).Assembly);
             builder.Services.AddControllersWithViews();
             builder.Services.ConfigureIdentity();
             builder.Services.AddRazorPages();
