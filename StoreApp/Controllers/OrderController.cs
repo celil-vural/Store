@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
 
@@ -13,8 +14,9 @@ namespace StoreApp.Controllers
             _cart = cart;
             _orderService = orderService;
         }
-
+        [Authorize(Roles = "Admin,Editor,User")]
         public ViewResult Checkout() => View(new Order());
+        [Authorize(Roles = "Admin,Editor,User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Checkout([FromForm] Order order)

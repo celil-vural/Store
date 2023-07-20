@@ -9,7 +9,11 @@ namespace StoreApp.Infrastructure.Config
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.ConfigureEndPoints();
+            app.ConfigureAndCheckMigration();
+            app.ConfigureDefaultAdminUser();
             app.ConfigureLocalization();
         }
     }

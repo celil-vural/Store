@@ -1,9 +1,12 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,Editor")]
     public class OrderController : Controller
     {
         private readonly IOrderService _serviceManager;
@@ -13,13 +16,11 @@ namespace StoreApp.Areas.Admin.Controllers
             _serviceManager = serviceManager;
         }
 
-        [Area("Admin")]
         public IActionResult Index()
         {
             var orders = _serviceManager.GetList()?.ToList() ?? new List<Order>();
             return View(orders);
         }
-        [Area("Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Complete([FromRoute(Name = "orderId")] int orderId)

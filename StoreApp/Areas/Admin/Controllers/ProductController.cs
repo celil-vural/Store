@@ -1,5 +1,6 @@
 ﻿using Entities.Dtos.Product;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Contract;
@@ -7,6 +8,7 @@ using Services.Contract;
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Editor")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

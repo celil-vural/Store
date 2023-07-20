@@ -1,0 +1,44 @@
+﻿<style>
+    body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .icon {
+        font-size: 4rem;
+        color: #dc3545;
+        margin-bottom: 1rem;
+    }
+
+    .message {
+        font-size: 1.2rem;
+        color: #dc3545;
+    }
+
+    .btn-back {
+        margin-top: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+</style>
+<div class="container">
+    <div class="icon">
+        <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="message">
+        <p>Access Denied</p>
+        <p>You don't have permission to access this page.</p>
+    </div>
+    <div class="btn-group">
+        <a href="@ViewBag.ReturnUrl?" class="btn btn-back">Back</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-back">Back to Home</a>
+    </div>
+</div>
