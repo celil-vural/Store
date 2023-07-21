@@ -23,6 +23,7 @@ namespace StoreApp.Areas.Admin.Controllers
 
         public IActionResult Index([FromQuery] ProductRequestParameters p)
         {
+            ViewData["Title"] = "Products";
             var products = _productService.GetAllProductsWithDetails(p) ?? new List<Product>();
             ViewBag.Categories = GetCategories() ?? new List<Category>();
             var pagination = new Pagination()
@@ -90,6 +91,7 @@ namespace StoreApp.Areas.Admin.Controllers
         {
             var model = _productService.GetWithDtoForUpdate(id);
             ViewBag.Categories = GetCategoriesSelectList();
+            ViewData["Title"] = model?.ProductName;
             return View(model);
         }
         [HttpPost]
