@@ -1,9 +1,11 @@
 ﻿using Entities.Dtos.Product;
 using Entities.Models;
+using Entities.RequestParameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Contract;
+using StoreApp.Models;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
@@ -19,36 +21,70 @@ namespace StoreApp.Areas.Admin.Controllers
             _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] ProductRequestParameters p)
         {
-            var entities = _productService.GetList()?.ToList() ?? new List<Product>();
-            return View(entities);
+            var products = _productService.GetAllProductsWithDetails(p) ?? new List<Product>();
+            ViewBag.Categories = GetCategories() ?? new List<Category>();
+            var pagination = new Pagination()
+            {
+                CurrentPage = p.PageNumber,
+                ItemsPerPage = p.PageSize,
+                TotalItems = _productService.GetList()?.Count() ?? 0
+            };
+            return View(new ProductListViewModel()
+            {
+                Products = products.ToList(),
+                Pagination = pagination
+            });
         }
 
         public IActionResult Create()
         {
             ViewBag.Categories = GetCategoriesSelectList();
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, IFormFile file)
+        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
+                // Dosya işlemleri
+                try
                 {
-                    await file.CopyToAsync(stream);
-                }
-                productDto.ImageUrl = String.Concat("/images/", file.FileName);
-                _productService.AddWithDtoForInsertion(productDto);
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+                    if (file != null && file.Length > 0)
+                    {
+                        string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+                        productDto.ImageUrl = String.Concat("/images/", file.FileName);
+                        _productService.AddWithDtoForInsertion(productDto);
+                        return RedirectToAction("Index");
+                    }
+                    ModelState.AddModelError("", "Lütfen bir resim seçin.");
+                    return View(productDto);
 
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Dosya yükleme işlemi sırasında bir hata oluştu: " + ex.Message);
+                }
+            }
+
+            return View(productDto);
+        }
         public IActionResult Update([FromRoute(Name = "id")] int id)
         {
             var model = _productService.GetWithDtoForUpdate(id);

@@ -1,10 +1,24 @@
 ﻿@model ProductDtoForInsertion
+<script>
+    const input = document.getElementById('imageInput');
+    input.addEventListener('change', function () {
+        const file = input.files[0];
+        if (file) {
+            const fileSize = file.size; // Dosya boyutunu byte cinsinden alırız.
+            const maxSizeInBytes = 5 * 1024 * 1024; // Örnek olarak 5 MB'lık sınır belirledik.
+            if (fileSize > maxSizeInBytes) {
+                alert('Resim boyutu çok büyük! Lütfen daha küçük bir resim seçin.');
+                input.value = ''; // Seçilen resmi iptal ederiz.
+            }
+        }
+    });
+</script>
 <div class="text-center">
     <div class="display-6">
         Create Product
     </div>
 </div>
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" asp-action="Create" enctype="multipart/form-data" runat="server">
     <div class="text-danger" asp-validation-summary="All"></div>
     <div class="form-group mb-3">
         <label asp-for="ProductName" class="form-label"></label>
@@ -16,19 +30,15 @@
     </div>
     <div class="form-group mb-3">
         <label asp-for="ImageUrl" class="form-label"></label>
-        <input type="file" name="file" class="form-control" />
+        <input type="file" runat="server" name="file" class="form-control" accept="image/*" id="imageInput" />
     </div>
     <div class="form-group mb-3">
-        <label asp-for="CategoryId" class="form-label"></label>
+        <label asp-for="CategoryId" class="form-label">Category</label>
         <select asp-items="@ViewBag.Categories" asp-for="CategoryId" class="form-select"></select>
     </div>
     <div class="form-group mb-3">
         <label asp-for="Summary" class="form-label"></label>
         <input asp-for="Summary" class="form-control"/>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="ImageUrl" class="form-label"></label>
-        <input asp-for="ImageUrl" class="form-control"/>
     </div>
     <div class="form-group mb-3">
         <div class="btn-group">

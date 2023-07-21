@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities.Dtos.Category;
 using Entities.Models;
 using Repositories.Contracts;
 using Services.Contract;
@@ -26,6 +27,30 @@ namespace Services.Concrete
             if (category == null) throw new Exception("Category Not Found!");
             _categoryRepository.Delete(category, trackChanges);
             _categoryRepository.SaveChanges();
+        }
+
+        public Category? AddWithDtoForInsertion(CategoryDtoForInsertion categoryDto, bool trackChanges = false)
+        {
+            Category entity = _mapper.Map<Category>(categoryDto);
+            if (entity == null) throw new Exception("Category Not Found!");
+            _categoryRepository.Add(entity, trackChanges);
+            _categoryRepository.SaveChanges();
+            return entity;
+        }
+
+        public CategoryDtoForUpdate? UpdateWithDtoForUpdate(CategoryDtoForUpdate categoryDto, bool trackChanges = false)
+        {
+            var entity = _mapper.Map<Category>(categoryDto);
+            var category = _categoryRepository.Update(entity, trackChanges);
+            _categoryRepository.SaveChanges();
+            return categoryDto;
+        }
+
+        public CategoryDtoForUpdate? GetWithDtoForUpdate(int id)
+        {
+            var category = GetById(id, false);
+            var categoryDto = _mapper.Map<CategoryDtoForUpdate>(category);
+            return categoryDto;
         }
     }
 }

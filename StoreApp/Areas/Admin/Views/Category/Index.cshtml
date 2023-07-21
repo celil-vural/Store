@@ -1,1 +1,38 @@
-﻿<h3>Category</h3>
+﻿@model IEnumerable<Category>
+<div class="text-center">
+    <div class="display-6">Products</div>
+    <div class="d-flex justify-content-end my-3">
+        <a class="btn btn-outline-success" asp-action="Create">
+            <i class="fa fa-plus"></i>
+            Create
+        </a>
+    </div>
+    <table table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Category Name</th>
+            <th>Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Category category in Model)
+        {
+            <tr>
+                <td>@category.CategoryId</td>
+                <td>@category.CategoryName</td>
+                <td>
+                    <div class="btn-group">
+                        <a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning" asp-action="Update" asp-route-id="@category.CategoryId">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger" asp-action="Delete" asp-route-id="@category.CategoryId">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

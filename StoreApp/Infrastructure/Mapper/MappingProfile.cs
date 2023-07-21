@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities.Dtos.Category;
 using Entities.Dtos.Product;
 using Entities.Dtos.User;
 using Entities.Models;
@@ -14,6 +15,7 @@ namespace StoreApp.Infrastructure.Mapper
             CreateMap<ProductDtoForUpdate, Product>().ReverseMap();
             CreateMap<UserDtoForCreation, IdentityUser>();
             CreateMap<UserDtoForUpdate, IdentityUser>().ReverseMap();
+            CreateMap<CategoryDtoForInsertion, Category>();
         }
     }
 }

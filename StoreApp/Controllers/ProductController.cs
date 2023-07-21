@@ -3,7 +3,6 @@ using Entities.RequestParameters;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
 using StoreApp.Models;
-
 namespace StoreApp.Controllers
 {
     public class ProductController : Controller
@@ -17,7 +16,12 @@ namespace StoreApp.Controllers
 
         public IActionResult Index(ProductRequestParameters p)
         {
+            if (p.SortBy == SortBy.IdAsc || p.SortBy == SortBy.IdDesc)
+            {
+                p.SortBy = SortBy.NameAsc;
+            }
             var products = _productService.GetAllProductsWithDetails(p) ?? new List<Product>();
+
             var pagination = new Pagination()
             {
                 CurrentPage = p.PageNumber,

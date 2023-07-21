@@ -6,7 +6,7 @@
 </div>
 <div class="my-2">
     <form method="get" asp-controller="Product" asp-action="Index">
-        <input type="hidden" name="categoryId" value="@(Context.Request.Query["categoryId"])"/>
+        <input type="hidden" name="categoryId" value="@(Context.Request.Query["categoryId"])" />
         <div class="form-group my-2">
             <label class="form-label">Search</label>
             <input class="form-control" name="SearchTerm" placeholder="Search" value="@(Context.Request.Query["SearchTerm"])" />
@@ -22,10 +22,12 @@
         <div class="form-group my-2">
             <label class="form-label">Sort By</label>
             <select class="form-select" name="SortBy">
-                <option value="NameAsc" selected="@(Context.Request.Query["SortBy"] == "NameAsc")">Name Ascending</option>
-                <option value="NameDesc" selected="@(Context.Request.Query["SortBy"] == "NameDesc")">Name Descending</option>
+                <option value="IdAsc" selected="@(Context.Request.Query["SortBy"]=="IdAsc")">Id Ascending</option>
+                <option value="IdDesc" selected="@(Context.Request.Query["SortBy"]=="IdDesc")">Id Descending</option>
                 <option value="PriceAsc" selected="@(Context.Request.Query["SortBy"] == "PriceAsc")">Price Ascending</option>
                 <option value="PriceDesc" selected="@(Context.Request.Query["SortBy"] == "PriceDesc")">Price Descending</option>
+                <option value="NameAsc" selected="@(Context.Request.Query["SortBy"] == "NameAsc")">Name Ascending</option>
+                <option value="NameDesc" selected="@(Context.Request.Query["SortBy"] == "NameDesc")">Name Descending</option>
             </select>
         </div>
         <div class="form-group m-2 d-flex justify-content-between">

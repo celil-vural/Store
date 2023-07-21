@@ -11,10 +11,11 @@ namespace StoreApp.Components
         {
             _productService = productService;
         }
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string page = "default")
         {
             var products = _productService.GetList()?.ToList();
-            return View(products);
+            return page.Equals("default") ?
+                View(products) : View("List", products);
         }
     }
 }

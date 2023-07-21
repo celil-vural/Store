@@ -9,12 +9,15 @@ namespace Services.Concrete
     public class ProductService : ServiceBase<Product>, IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        public ProductService(IProductRepository productRepository, IMapper mapper) : base(productRepository, mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper, ICategoryService categoryService) : base(productRepository, mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _categoryService = categoryService;
         }
+
         public override Product? GetById(int id, bool trackChanges = false)
         {
             var entity = _productRepository.Get(p => p.ProductId.Equals(id), trackChanges);
@@ -60,7 +63,9 @@ namespace Services.Concrete
 
         public IEnumerable<Product>? GetAllProductsWithDetails(ProductRequestParameters? parameters)
         {
-            return _productRepository.GetAllProductsWithDetails(parameters);
+            var products = _productRepository.GetAllProductsWithDetails(parameters);
+
+            return products;
         }
 
         public List<Product>? GetLastestProducts(int count, bool trackChanges = false)

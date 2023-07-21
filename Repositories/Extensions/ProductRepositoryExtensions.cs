@@ -31,7 +31,7 @@ namespace Repositories.Extensions
             return products.Skip((int)((pageNumber - 1) * pageSize)).Take((int)pageSize).ToList();
         }
 
-        public static IEnumerable<Product> SortBy(this IEnumerable<Product> products, string? sortBy)
+        public static IEnumerable<Product> SortBy(this IEnumerable<Product> products, SortBy? sortBy)
         {
             if (sortBy is null)
             {
@@ -39,10 +39,12 @@ namespace Repositories.Extensions
             }
             return sortBy switch
             {
-                "PriceAsc" => products.OrderBy(p => p.Price).ToList(),
-                "PriceDesc" => products.OrderByDescending(p => p.Price).ToList(),
-                "NameAsc" => products.OrderBy(p => p.ProductName).ToList(),
-                "NameDesc" => products.OrderByDescending(p => p.ProductName).ToList(),
+                global::SortBy.PriceAsc => products.OrderBy(p => p.Price).ToList(),
+                global::SortBy.PriceDesc => products.OrderByDescending(p => p.Price).ToList(),
+                global::SortBy.NameAsc => products.OrderBy(p => p.ProductName).ToList(),
+                global::SortBy.NameDesc => products.OrderByDescending(p => p.ProductName).ToList(),
+                global::SortBy.IdAsc => products.OrderBy(p => p.ProductId).ToList(),
+                global::SortBy.IdDesc => products.OrderByDescending(p => p.ProductId).ToList(),
                 _ => products,
             };
         }

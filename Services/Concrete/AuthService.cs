@@ -16,7 +16,6 @@ namespace Services.Concrete
             _userManager = userManager;
             _mapper = mapper;
         }
-
         public IEnumerable<IdentityRole> Roles => _roleManager.Roles;
         public IEnumerable<IdentityUser> Users => _userManager.Users.ToList();
         public async Task<IdentityResult> CreateUser(UserDtoForCreation userDtoForCreation)

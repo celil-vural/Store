@@ -21,7 +21,7 @@ namespace StoreApp.Infrastructure.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
 
-            //Connection Repositories with Database
+            //Connection Repositories to Database
             services.AddScoped<IRepositoryBase<Product>, EfRepositoryBase<Product>>();
             services.AddScoped<IRepositoryBase<Category>, EfRepositoryBase<Category>>();
             services.AddScoped<IRepositoryBase<Order>, EfRepositoryBase<Order>>();

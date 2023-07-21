@@ -26,9 +26,9 @@
 <script src="~/js/site.js"></script>
 <script src="~/lib/font-awesome/js/all.min.js"></script>
 <script>
-    $(document).ready(() => {
-        $(['data-toggle="tooltip"']).tooltip();
-    });
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 @await RenderSectionAsync("Scripts",false)
 </body>

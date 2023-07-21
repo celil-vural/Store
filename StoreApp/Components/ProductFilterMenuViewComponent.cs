@@ -4,9 +4,9 @@ namespace StoreApp.Components
 {
     public class ProductFilterMenuViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string role = "default")
         {
-            return View();
+            return role.Equals("default") ? View() : View("AdminProduct");
         }
     }
 }

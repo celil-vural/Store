@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
-using System.Data;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
@@ -63,7 +62,7 @@ namespace StoreApp.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> ResetPassword([FromRoute(Name = "id")] string id)
+        public IActionResult ResetPassword([FromRoute(Name = "id")] string id)
         {
             return View(new UserResetPasswordDto() { UserName = id });
         }
@@ -82,7 +81,7 @@ namespace StoreApp.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteUser([FromForm] UserDto userDto)
         {
             if (!ModelState.IsValid || userDto.UserName is null) View();
-            var result = await _authService.DeleteUser(userDto.UserName);
+            var result = await _authService.DeleteUser(userDto.UserName!);
             return result.Succeeded ? RedirectToAction("Index") : View();
         }
     }
