@@ -71,15 +71,16 @@ namespace StoreApp.Areas.Admin.Controllers
                         }
                         productDto.ImageUrl = String.Concat("/images/", file.FileName);
                         _productService.AddWithDtoForInsertion(productDto);
+                        TempData["success"] = $"{productDto.ProductName} has been created.";
                         return RedirectToAction("Index");
                     }
-                    ModelState.AddModelError("", "Lütfen bir resim seçin.");
+                    ModelState.AddModelError("", "Please, select a image.");
                     return View(productDto);
 
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Dosya yükleme işlemi sırasında bir hata oluştu: " + ex.Message);
+                    ModelState.AddModelError("", "Error: " + ex.Message);
                 }
             }
 
@@ -105,6 +106,7 @@ namespace StoreApp.Areas.Admin.Controllers
         public IActionResult Delete([FromRoute(Name = "id")] int id)
         {
             _productService.Delete(id);
+            TempData["danger"] = "Product has been deleted.";
             return RedirectToAction("Index");
         }
         private SelectList GetCategoriesSelectList()
